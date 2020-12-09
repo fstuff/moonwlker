@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
+import java.time.Month;
 
 import org.junit.jupiter.api.Test;
 import org.requirementsascode.moonwlker.testobject.animal.Animal;
@@ -44,8 +45,9 @@ public class SubclassInSamePackageTest extends MoonwlkerModuleTest {
         .build();
     objectMapper.registerModule(module);
 
-    String jsonString = "{\"kind\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"employeeNumber\":\"EMP-2020\"}";
+    String jsonString = "{\"kind\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
     Person person = objectMapper.readValue(jsonString, Person.class);
+    assertEquals(Month.OCTOBER,person.month());
     assertEquals("Jane", person.firstName());
     assertEquals("Doe", person.lastName());
     assertEquals("EMP-2020", ((Employee) person).employeeNumber());
