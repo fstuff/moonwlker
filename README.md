@@ -20,14 +20,14 @@ If you are using Maven, include the following in your POM:
 <dependency>
   <groupId>org.requirementsascode</groupId>
   <artifactId>moonwlker</artifactId>
-  <version>0.0.7</version>
+  <version>0.0.8</version>
 </dependency>
 ```
 
 If you are using Gradle, include the following in your build.gradle:
 
 ```
-implementation 'org.requirementsascode:moonwlker:0.0.7'
+implementation 'org.requirementsascode:moonwlker:0.0.8'
 ```
 
 At least Java 8 is required, download and install it if necessary.
@@ -129,7 +129,7 @@ The created `ObjectMapper` (de)serializes objects of direct or indirect subclass
 The `type` JSON property needs to specify the relative class name of the object to be created by Moonwlker (i.e. [Employee](https://github.com/bertilmuth/moonwlker/blob/master/src/test/java/org/requirementsascode/moonwlker/testobject/person/Employee.java)):
 
 ``` java
-String jsonString = "{ \"type\" : \"Employee\", \"firstName\" : \"Jane\", \"lastName\" : \"Doe\" , \"employeeNumber\" : \"EMP-2020\"}";
+String jsonString = "{\"kind\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
 Employee employee = (Employee) objectMapper.readValue(jsonString, Object.class);
 ```
 Use a simple class name like above if the sub class is in the same package as the super class.
@@ -137,7 +137,7 @@ Use a package prefix if the sub class is in a direct or indirect sub package of 
 For example, this JSON string could be used if `Employee` was in the `company` subpackage of the package that `Person` is in:
 
 ``` java
-String jsonString = "{ \"type\" : \"company.Employee\", \"firstName\" : \"Jane\", \"lastName\" : \"Doe\" , \"employeeNumber\" : \"EMP-2020\"}";
+String jsonString = "{\"kind\":\"company.Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
 ```
 
 You can also specify multiple base classes like so:

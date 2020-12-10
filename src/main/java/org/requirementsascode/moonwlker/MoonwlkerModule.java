@@ -1,7 +1,7 @@
 package org.requirementsascode.moonwlker;
 
-import org.requirementsascode.moonwlker.paramnames.ParameterExtractor;
 import org.requirementsascode.moonwlker.paramnames.AdaptedParameterNamesAnnotationIntrospector;
+import org.requirementsascode.moonwlker.paramnames.ParameterExtractor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

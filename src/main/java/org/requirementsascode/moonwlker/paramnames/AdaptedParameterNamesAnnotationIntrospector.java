@@ -4,9 +4,16 @@ import java.lang.reflect.MalformedParametersException;
 import java.lang.reflect.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
-import com.fasterxml.jackson.databind.introspect.*;
+import com.fasterxml.jackson.databind.introspect.Annotated;
+import com.fasterxml.jackson.databind.introspect.AnnotatedConstructor;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
+import com.fasterxml.jackson.databind.introspect.AnnotatedParameter;
+import com.fasterxml.jackson.databind.introspect.AnnotatedWithParams;
+import com.fasterxml.jackson.databind.introspect.NopAnnotationIntrospector;
 
 /**
  * IMPORTANT NOTE from b_muth: This has been adapted from the official ParamNames module to
@@ -75,9 +82,18 @@ public class AdaptedParameterNamesAnnotationIntrospector extends NopAnnotationIn
   @Override
   public JsonCreator.Mode findCreatorAnnotation(MapperConfig<?> config, Annotated a) {
     JsonCreator ann = _findAnnotation(a, JsonCreator.class);
-    if (ann == null) {
-      return JsonCreator.Mode.PROPERTIES;
+
+    Mode mode = null;
+    if (ann != null) {
+      mode = ann.mode();
+    } else if (!isJdkClass(a.getRawType())) {
+      mode = JsonCreator.Mode.PROPERTIES;
     }
-    return null;
+    return mode;
+  }
+
+  private boolean isJdkClass(Class<?> rawType) {
+    String rawTypeName = rawType.getName();
+    return rawTypeName.startsWith("java.") || rawTypeName.startsWith("javax.");
   }
 }

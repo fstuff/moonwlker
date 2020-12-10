@@ -28,7 +28,7 @@ public class SubclassInSamePackageTest extends MoonwlkerModuleTest {
         .build();
     objectMapper.registerModule(module);
 
-    String jsonString = "{\"type\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"employeeNumber\":\"EMP-2020\"}";
+    String jsonString = "{\"type\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
     Person person = objectMapper.readValue(jsonString, Person.class);
     assertEquals("Jane", person.firstName());
     assertEquals("Doe", person.lastName());
@@ -59,11 +59,11 @@ public class SubclassInSamePackageTest extends MoonwlkerModuleTest {
   public void readsAndWrites_oneObject_withObjectSuperClass() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     MoonwlkerModule module = MoonwlkerModule.builder()
-        .fromProperty("kind").toSubclassesOf(Person.class)
+        .fromProperty("type").toSubclassesOf(Person.class)
         .build();
     objectMapper.registerModule(module);
 
-    String jsonString = "{\"kind\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"employeeNumber\":\"EMP-2020\"}";
+    String jsonString = "{\"type\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
     Person person = (Person)objectMapper.readValue(jsonString, Object.class);
     assertEquals("Jane", person.firstName());
     assertEquals("Doe", person.lastName());
@@ -76,11 +76,11 @@ public class SubclassInSamePackageTest extends MoonwlkerModuleTest {
   public void readsAndWrites_oneObject_withSingleArgumentConstructor() throws Exception {
     ObjectMapper objectMapper = new ObjectMapper();
     MoonwlkerModule module = MoonwlkerModule.builder()
-        .fromProperty("kind").toSubclassesOf(Animal.class)
+        .fromProperty("type").toSubclassesOf(Animal.class)
         .build();
     objectMapper.registerModule(module);
 
-    String jsonString = "{\"kind\":\"UnspecificAnimal\",\"price\":23}";
+    String jsonString = "{\"type\":\"UnspecificAnimal\",\"price\":23}";
     Animal animal = objectMapper.readValue(jsonString, Animal.class);
     assertEquals(new BigDecimal(23), animal.price());
 
@@ -101,7 +101,7 @@ public class SubclassInSamePackageTest extends MoonwlkerModuleTest {
     assertEquals("Sit", dog.command());
     assertEquals(jsonString, writeToJson(objectMapper, dog));
 
-    jsonString = "{\"type\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"employeeNumber\":\"EMP-2020\"}";
+    jsonString = "{\"type\":\"Employee\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"month\":\"OCTOBER\",\"employeeNumber\":\"EMP-2020\"}";
     Employee employee = (Employee) objectMapper.readValue(jsonString, Person.class);
     assertEquals("Jane", employee.firstName());
     assertEquals("Doe", employee.lastName());
